@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { Asset } from 'expo-asset';
 import { Ionicons } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
+import { NavigationContainer } from '@react-navigation/native';
+import { ApolloProvider } from '@apollo/client';
+import client from './apollo/client';
+import RootNav from './navigators/RootNav';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -29,17 +31,10 @@ export default function App() {
     );
   }
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-    </View>
+    <ApolloProvider client={client}>
+      <NavigationContainer>
+        <RootNav />
+      </NavigationContainer>
+    </ApolloProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

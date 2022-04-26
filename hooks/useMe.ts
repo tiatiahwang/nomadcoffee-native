@@ -1,10 +1,10 @@
 import { useReactiveVar } from '@apollo/client';
 import { useEffect } from 'react';
-import { logUserOut, tokenVar } from '../apollo/vars';
+import { isLoggedInVar, logUserOut } from '../apollo/vars';
 import { useMeQuery } from '../graphql/generated';
 
 const useMe = () => {
-  const hasToken = useReactiveVar(tokenVar);
+  const hasToken = useReactiveVar(isLoggedInVar);
   const { data } = useMeQuery({ skip: !hasToken });
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const useMe = () => {
     }
   }, [data]);
 
-  return data?.me;
+  return { data };
 };
 
 export default useMe;

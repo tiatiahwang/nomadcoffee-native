@@ -15,5 +15,5 @@ export const logUserIn = async (token: string) => {
 export const logUserOut = async () => {
   await AsyncStorage.removeItem(TOKEN);
   isLoggedInVar(false);
-  tokenVar(null);
+  tokenVar('');
 };

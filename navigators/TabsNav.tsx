@@ -1,88 +1,110 @@
-import { useReactiveVar } from '@apollo/client';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { isLoggedInVar } from '../apollo/vars';
+import { View } from 'react-native';
+import Avatar from '../components/Avatar';
 import TabIcons from '../components/nav/TabIcons';
+import useMe from '../hooks/useMe';
 import { TabsNavParamList } from '../navTypes';
-import Home from '../screens/Home';
-import Login from '../screens/Login';
-import Profile from '../screens/Profile';
-import Search from '../screens/Search';
+import SharedStackNav from './SharedStackNav';
 
-const Tabs = createBottomTabNavigator<TabsNavParamList>();
+const Tab = createBottomTabNavigator<TabsNavParamList>();
 
 const TabsNav = () => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const size = 24;
+  const { data } = useMe();
+  console.log(data);
   return (
-    <Tabs.Navigator>
-      <Tabs.Screen
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          borderTopColor: 'rgba(255, 255, 255, 0.3)',
+        },
+        tabBarActiveTintColor: '#d0b894',
+      }}
+    >
+      <Tab.Screen
         name="HomeTab"
-        component={Home}
         options={{
-          tabBarShowLabel: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcons
-              color={color}
+              name={'home'}
+              focusedName={'home-outline'}
               focused={focused}
-              size={size}
-              name="home"
-              focusedName="home-outline"
+              color={color}
+              size={24}
             />
           ),
         }}
-      />
-      <Tabs.Screen
+      >
+        {() => <SharedStackNav screenName="Home" />}
+      </Tab.Screen>
+      <Tab.Screen
         name="SearchTab"
-        component={Search}
         options={{
-          tabBarShowLabel: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcons
-              color={color}
+              name={'search'}
+              focusedName={'search-outline'}
               focused={focused}
-              size={size}
-              name="search"
-              focusedName="search-outline"
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      >
+        {() => <SharedStackNav screenName="Search" />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="CameraTab"
+        component={View}
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcons
+              name={'camera'}
+              focusedName={'camera-outline'}
+              focused={focused}
+              color={color}
+              size={24}
             />
           ),
         }}
       />
-      {isLoggedIn ? (
-        <Tabs.Screen
-          name="ProfileTab"
-          component={Profile}
-          options={{
-            tabBarShowLabel: false,
-            tabBarIcon: ({ color, focused }) => (
+      <Tab.Screen
+        name="NotificationsTab"
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcons
+              name={'heart'}
+              focusedName={'heart-outline'}
+              focused={focused}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      >
+        {() => <SharedStackNav screenName="Notifications" />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="MeTab"
+        options={{
+          tabBarIcon: ({ color, focused }) =>
+            data?.me ? (
+              <Avatar src={data?.me?.avatarURL} size={24} focused={focused} />
+            ) : (
               <TabIcons
-                color={color}
+                name={'person'}
+                focusedName={'person-outline'}
                 focused={focused}
-                size={size}
-                name="person"
-                focusedName="person-outline"
+                color={color}
+                size={24}
               />
             ),
-          }}
-        />
-      ) : (
-        <Tabs.Screen
-          name="LoginTab"
-          component={Login}
-          options={{
-            tabBarShowLabel: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcons
-                color={color}
-                focused={focused}
-                size={size}
-                name="person"
-                focusedName="person-outline"
-              />
-            ),
-          }}
-        />
-      )}
-    </Tabs.Navigator>
+        }}
+      >
+        {() => <SharedStackNav screenName="Me" />}
+      </Tab.Screen>
+    </Tab.Navigator>
   );
 };
 

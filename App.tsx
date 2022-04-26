@@ -6,7 +6,7 @@ import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { ApolloProvider } from '@apollo/client';
 import client from './apollo/client';
-import RootNav from './navigators/RootNav';
+import TabsNav from './navigators/TabsNav';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
-        <RootNav />
+        <TabsNav />
       </NavigationContainer>
     </ApolloProvider>
   );

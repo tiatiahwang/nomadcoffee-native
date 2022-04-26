@@ -8,21 +8,19 @@ const SAvatar = styled.Image<{ size: number }>`
 `;
 
 interface Props {
-  url: string;
+  src: string | null | undefined;
   size: number;
+  focused?: boolean;
 }
 
-const Avatar = ({ size, url }: Props) => {
+const Avatar = ({ size, src, focused }: Props) => {
   return (
     <SAvatar
       size={size}
       defaultSource={require('../assets/user.png')}
-      source={{ uri: url !== null ? url : '../assets/user.png' }}
+      source={{ uri: src !== null ? src : '../assets/user.png' }}
       resizeMode="cover"
-      style={{
-        borderColor: '#e5e5e5',
-        borderWidth: 1,
-      }}
+      style={focused && { borderColor: 'white', borderWidth: 2 }}
     />
   );
 };

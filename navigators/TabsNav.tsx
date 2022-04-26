@@ -10,7 +10,6 @@ const Tab = createBottomTabNavigator<TabsNavParamList>();
 
 const TabsNav = () => {
   const { data } = useMe();
-  console.log(data);
   return (
     <Tab.Navigator
       screenOptions={{

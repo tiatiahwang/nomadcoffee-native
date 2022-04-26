@@ -1,51 +1,43 @@
 import { useNavigation } from '@react-navigation/native';
-import { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Text, TextInput, TouchableOpacity } from 'react-native';
-import styled from 'styled-components/native';
-import { logUserIn } from '../apollo/vars';
-import { colors } from '../colors';
+import { TextInput, TouchableOpacity } from 'react-native';
 import AuthButton from '../components/auth/AuthButton';
 import AuthLayout from '../components/auth/AuthLayout';
 import { Input } from '../components/auth/AuthShared';
-import { useLoginMutation } from '../graphql/generated';
-import { LoginScreenProps } from '../navTypes';
-
-const Button = styled.Text`
-  color: ${colors.ivory};
-  font-weight: 600;
-  text-align: center;
-  font-size: 16px;
-  margin-top: 8px;
-`;
+import { useCreateAccountMutation } from '../graphql/generated';
+import { CreateAccountScreenProps } from '../navTypes';
 
 interface IForm {
+  email: string;
   username: string;
   password: string;
 }
 
-const Login = ({ route }: LoginScreenProps) => {
-  const navigation = useNavigation<LoginScreenProps['navigation']>();
-  const [logInMutation, { loading }] = useLoginMutation();
-  const { control, handleSubmit } = useForm<IForm>({
-    defaultValues: {
-      username: route?.params?.username || '',
-      password: route?.params?.password || '',
-    },
-  });
+const CreateAccount = () => {
+  const navigation = useNavigation<CreateAccountScreenProps['navigation']>();
+  useEffect(() => {
+    navigation.setOptions({ title: '계정 생성' });
+  }, [navigation]);
+
+  const { control, handleSubmit, getValues } = useForm<IForm>();
+  const [createAccountMutation, { loading }] = useCreateAccountMutation();
+  const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
   const onNext = (next: React.RefObject<TextInput>) => next.current?.focus();
+
   const onValid: SubmitHandler<IForm> = (data) => {
     if (loading) return;
-    logInMutation({
+    createAccountMutation({
       variables: data,
-      onCompleted: ({ login }) => {
-        if (!login?.ok || !login.token) return;
-        logUserIn(login.token);
+      onCompleted: ({ createAccount }) => {
+        if (!createAccount.ok) return;
+        const { username, password } = getValues();
+        navigation.navigate('Login', { username, password });
       },
     });
   };
-  const goToCreateAccount = () => navigation.navigate('CreateAccount');
   return (
     <AuthLayout>
       <Controller
@@ -54,14 +46,32 @@ const Login = ({ route }: LoginScreenProps) => {
         name="username"
         render={({ field: { onChange, value } }) => (
           <Input
-            autoFocus
             autoCapitalize="none"
             placeholder="계정 이름"
             placeholderTextColor="#decdb4"
             returnKeyType="next"
+            onSubmitEditing={() => onNext(emailRef)}
+            autoFocus
             onChangeText={onChange}
             value={value}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        rules={{ required: true }}
+        name="email"
+        render={({ field: { onChange, value } }) => (
+          <Input
+            autoCapitalize="none"
+            ref={emailRef}
+            placeholder="이메일"
+            placeholderTextColor="#decdb4"
+            keyboardType="email-address"
+            returnKeyType="next"
             onSubmitEditing={() => onNext(passwordRef)}
+            onChangeText={onChange}
+            value={value}
           />
         )}
       />
@@ -73,7 +83,7 @@ const Login = ({ route }: LoginScreenProps) => {
           <Input
             ref={passwordRef}
             placeholder="비밀번호"
-            placeholderTextColor={'#decdb4'}
+            placeholderTextColor="#decdb4"
             returnKeyType="done"
             secureTextEntry
             last={true}
@@ -87,13 +97,10 @@ const Login = ({ route }: LoginScreenProps) => {
         style={{ width: '100%' }}
         onPress={handleSubmit(onValid)}
       >
-        <AuthButton text="로그인" isLoading={loading} />
-      </TouchableOpacity>
-      <TouchableOpacity style={{ width: '100%' }} onPress={goToCreateAccount}>
-        <Button>회원가입</Button>
+        <AuthButton text="계정 생성" isLoading={loading} />
       </TouchableOpacity>
     </AuthLayout>
   );
 };
 
-export default Login;
+export default CreateAccount;

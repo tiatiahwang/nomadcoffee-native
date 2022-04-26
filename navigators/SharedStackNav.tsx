@@ -1,15 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
 import { SharedNavParamList } from '../navTypes';
-import useMe from '../hooks/useMe';
 import Home from '../screens/Home';
 import Search from '../screens/Search';
 import Notifications from '../screens/Notifications';
 import Me from '../screens/Me';
 import Profile from '../screens/Profile';
 import Login from '../screens/Login';
-import { useReactiveVar } from '@apollo/client';
-import { isLoggedInVar } from '../apollo/vars';
+import CreateAccount from '../screens/CreateAccount';
 
 const Stack = createNativeStackNavigator<SharedNavParamList>();
 
@@ -18,7 +16,6 @@ interface Props {
 }
 
 const SharedStackNav = ({ screenName }: Props) => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -50,6 +47,8 @@ const SharedStackNav = ({ screenName }: Props) => {
       )}
       {screenName === 'Me' && <Stack.Screen name="Me" component={Me} />}
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="CreateAccount" component={CreateAccount} />
+      <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   );
 };

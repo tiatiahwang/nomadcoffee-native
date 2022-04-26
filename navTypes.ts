@@ -16,6 +16,8 @@ export type SharedNavParamList = {
   Notifications: undefined;
   Me: undefined;
   Profile: { username: string };
+  CreateAccount: undefined;
+  Login: { username: string; password: string };
 };
 
 export type HomeScreenProps = CompositeScreenProps<
@@ -28,6 +30,21 @@ export type HomeScreenProps = CompositeScreenProps<
 
 export type ProfileScreenProps = CompositeScreenProps<
   NativeStackScreenProps<SharedNavParamList, 'Profile'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabsNavParamList>,
+    NativeStackScreenProps<TabsNavParamList>
+  >
+>;
+
+export type CreateAccountScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<SharedNavParamList, 'CreateAccount'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabsNavParamList>,
+    NativeStackScreenProps<TabsNavParamList>
+  >
+>;
+export type LoginScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<SharedNavParamList, 'Login'>,
   CompositeScreenProps<
     BottomTabScreenProps<TabsNavParamList>,
     NativeStackScreenProps<TabsNavParamList>

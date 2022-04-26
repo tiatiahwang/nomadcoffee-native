@@ -1,5 +1,4 @@
 import { FlatList, RefreshControl } from 'react-native';
-import { colors } from '../colors';
 import Photo from '../components/Photo';
 import ScreenLayout from '../components/ScreenLayout';
 import { useSeeCoffeeShopsQuery } from '../graphql/generated';

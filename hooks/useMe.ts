@@ -6,7 +6,7 @@ import { useMeQuery } from '../graphql/generated';
 const useMe = () => {
   const hasToken = useReactiveVar(isLoggedInVar);
   const { data } = useMeQuery({ skip: !hasToken });
-
+  console.log(data);
   useEffect(() => {
     if (data?.me === null) {
       logUserOut();

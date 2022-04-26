@@ -71,7 +71,7 @@ const Photo = ({ photo }: Props) => {
     variables: { id: photo?.id! },
     update: (cache, { data }) => {
       if (!data?.toggleLike.ok || !photo) return;
-      const id = `Photo:${photo?.id!}`;
+      const id = `CoffeeShop:${photo?.id!}`;
       cache.modify({
         id,
         fields: {

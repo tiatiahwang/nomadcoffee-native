@@ -48,9 +48,7 @@ const Login = ({ route }: LoginScreenProps) => {
     logInMutation({
       variables: data,
       onCompleted: ({ login }) => {
-        if (login.error) {
-          setError('result', { message: login.error });
-        }
+        if (login.error) return setError('result', { message: login.error });
         if (!login?.ok || !login.token) return;
         console.log(errors?.result?.message);
         logUserIn(login.token);
@@ -62,7 +60,6 @@ const Login = ({ route }: LoginScreenProps) => {
       clearErrors('result');
     }
   };
-  console.log(errors);
   const goToCreateAccount = () => navigation.navigate('CreateAccount');
   return (
     <AuthLayout>
@@ -81,7 +78,6 @@ const Login = ({ route }: LoginScreenProps) => {
             onChange={clearError}
             value={value}
             onSubmitEditing={() => onNext(passwordRef)}
-            hasError={Boolean(errors?.password?.message)}
           />
         )}
       />
@@ -96,7 +92,6 @@ const Login = ({ route }: LoginScreenProps) => {
             placeholderTextColor={'#decdb4'}
             returnKeyType="done"
             secureTextEntry
-            last={true}
             onChangeText={onChange}
             onChange={clearError}
             value={value}

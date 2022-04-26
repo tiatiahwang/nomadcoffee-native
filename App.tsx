@@ -8,7 +8,11 @@ import { ApolloProvider } from '@apollo/client';
 import client, { cache } from './apollo/client';
 import { isLoggedInVar, TOKEN, tokenVar } from './apollo/vars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AsyncStorageWrapper, persistCache } from 'apollo3-cache-persist';
+import {
+  AsyncStorageWrapper,
+  CachePersistor,
+  persistCache,
+} from 'apollo3-cache-persist';
 import TabsNav from './navigators/TabsNav';
 
 export default function App() {
@@ -30,10 +34,15 @@ export default function App() {
       isLoggedInVar(true);
       tokenVar(token);
     }
-    await persistCache({
+    // await persistCache({
+    //   cache,
+    //   storage: new AsyncStorageWrapper(AsyncStorage),
+    // });
+    const persistor = new CachePersistor({
       cache,
       storage: new AsyncStorageWrapper(AsyncStorage),
     });
+    await persistor.purge();
     return preloadAssets();
   };
   if (loading) {

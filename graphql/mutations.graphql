@@ -16,3 +16,10 @@ mutation createAccount(
     error
   }
 }
+
+mutation toggleLike($id: Int!) {
+  toggleLike(id: $id) {
+    ok
+    error
+  }
+}

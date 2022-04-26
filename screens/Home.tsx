@@ -1,20 +1,36 @@
-import { Text } from 'react-native';
-import styled from 'styled-components/native';
-import { useSeeCoffeeShopsQuery } from '../src/graphql/generated';
-
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-const Title = styled.Text``;
+import { FlatList, RefreshControl } from 'react-native';
+import { colors } from '../colors';
+import Photo from '../components/Photo';
+import ScreenLayout from '../components/ScreenLayout';
+import { useSeeCoffeeShopsQuery } from '../graphql/generated';
 
 const Home = () => {
-  // const [seeCoffeeShops, { loading }] = useSeeCoffeeShopsQuery();
+  const { data, loading, refetch, fetchMore } = useSeeCoffeeShopsQuery({
+    variables: { page: 0 },
+  });
   return (
-    <Container>
-      <Title>Home</Title>
-    </Container>
+    <ScreenLayout loading={loading}>
+      <FlatList
+        onEndReachedThreshold={0.02}
+        onEndReached={() =>
+          fetchMore({
+            variables: { page: data?.seeCoffeeShops?.length },
+          })
+        }
+        style={{ width: '100%' }}
+        data={data?.seeCoffeeShops}
+        keyExtractor={(item) => item?.id + ''}
+        renderItem={({ item: photo }) => <Photo photo={photo} />}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            onRefresh={refetch}
+            refreshing={loading}
+            tintColor="black"
+          />
+        }
+      />
+    </ScreenLayout>
   );
 };
 

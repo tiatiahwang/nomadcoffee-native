@@ -15,8 +15,16 @@ export type SharedNavParamList = {
   Search: undefined;
   Notifications: undefined;
   Me: undefined;
-  Profile: undefined;
+  Profile: { username: string };
 };
+
+export type HomeScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<SharedNavParamList, 'Home'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabsNavParamList>,
+    NativeStackScreenProps<TabsNavParamList>
+  >
+>;
 
 export type ProfileScreenProps = CompositeScreenProps<
   NativeStackScreenProps<SharedNavParamList, 'Profile'>,

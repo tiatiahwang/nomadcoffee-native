@@ -29,13 +29,13 @@ const Label = styled.Text`
 const Content = styled.Text``;
 
 const Profile = ({ route, navigation }: ProfileScreenProps) => {
-  // useEffect(() => {
-  //   if (route?.params?.username) {
-  //     navigation.setOptions({ title: route.params.username });
-  //   }
-  // });
+  useEffect(() => {
+    if (route?.params?.username) {
+      navigation.setOptions({ title: route.params.username });
+    }
+  });
   return (
-    <Text>다른 유저들</Text>
+    <Text>{route.params.username}</Text>
     // <AuthLayout>
     //   <Title>유저 정보</Title>
     //   <Avatar size={100} url={data?.me?.avatarURL} />

@@ -22,8 +22,9 @@ const SharedStackNav = ({ screenName }: Props) => {
   return (
     <Stack.Navigator
       screenOptions={{
+        headerBackTitleVisible: false,
         headerShadowVisible: false,
-        headerTintColor: 'white',
+        headerTintColor: 'black',
       }}
     >
       {screenName === 'Home' && (

@@ -7,7 +7,7 @@ const Button = styled.View<{ disabled?: boolean }>`
   padding: 13px 10px;
   border-radius: 3px;
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
 `;
 

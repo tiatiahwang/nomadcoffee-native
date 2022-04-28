@@ -137,12 +137,19 @@ export type MutationResponse = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  searchCoffeeShop?: Maybe<Array<Maybe<CoffeeShop>>>;
   searchUsers?: Maybe<Array<Maybe<User>>>;
   seeCategories?: Maybe<Array<Maybe<Category>>>;
   seeCategory?: Maybe<Array<Maybe<CoffeeShop>>>;
   seeCoffeeShop?: Maybe<CoffeeShop>;
   seeCoffeeShops?: Maybe<Array<Maybe<CoffeeShop>>>;
+  seePhoto?: Maybe<Array<Maybe<CoffeeShop>>>;
   seeProfile?: Maybe<User>;
+};
+
+
+export type QuerySearchCoffeeShopArgs = {
+  keyword: Scalars['String'];
 };
 
 
@@ -169,6 +176,11 @@ export type QuerySeeCoffeeShopArgs = {
 
 export type QuerySeeCoffeeShopsArgs = {
   page?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QuerySeePhotoArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -235,6 +247,20 @@ export type SeeCoffeeShopsQueryVariables = Exact<{
 
 
 export type SeeCoffeeShopsQuery = { __typename?: 'Query', seeCoffeeShops?: Array<{ __typename?: 'CoffeeShop', id: number, name: string, latitude: string, longitude: string, createdAt: string, isMine: boolean, isLiked: boolean, likes: number, user: { __typename?: 'User', username: string, avatarURL?: string | null }, photos?: Array<{ __typename?: 'CoffeeShopPhoto', id: number, url: string } | null> | null, categories?: Array<{ __typename?: 'Category', id: number, name: string } | null> | null } | null> | null };
+
+export type SeeCoffeeShopQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type SeeCoffeeShopQuery = { __typename?: 'Query', seeCoffeeShop?: { __typename?: 'CoffeeShop', id: number, name: string, latitude: string, longitude: string, createdAt: string, isMine: boolean, isLiked: boolean, likes: number, user: { __typename?: 'User', username: string, avatarURL?: string | null }, photos?: Array<{ __typename?: 'CoffeeShopPhoto', id: number, url: string } | null> | null, categories?: Array<{ __typename?: 'Category', id: number, name: string } | null> | null } | null };
+
+export type SearchCoffeeShopQueryVariables = Exact<{
+  keyword: Scalars['String'];
+}>;
+
+
+export type SearchCoffeeShopQuery = { __typename?: 'Query', searchCoffeeShop?: Array<{ __typename?: 'CoffeeShop', id: number, name: string, photos?: Array<{ __typename?: 'CoffeeShopPhoto', id: number, url: string } | null> | null } | null> | null };
 
 
 export const LoginDocument = gql`
@@ -433,3 +459,97 @@ export function useSeeCoffeeShopsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type SeeCoffeeShopsQueryHookResult = ReturnType<typeof useSeeCoffeeShopsQuery>;
 export type SeeCoffeeShopsLazyQueryHookResult = ReturnType<typeof useSeeCoffeeShopsLazyQuery>;
 export type SeeCoffeeShopsQueryResult = Apollo.QueryResult<SeeCoffeeShopsQuery, SeeCoffeeShopsQueryVariables>;
+export const SeeCoffeeShopDocument = gql`
+    query seeCoffeeShop($id: Int!) {
+  seeCoffeeShop(id: $id) {
+    id
+    name
+    latitude
+    longitude
+    createdAt
+    isMine
+    isLiked
+    likes
+    user {
+      username
+      avatarURL
+    }
+    photos {
+      id
+      url
+    }
+    categories {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useSeeCoffeeShopQuery__
+ *
+ * To run a query within a React component, call `useSeeCoffeeShopQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSeeCoffeeShopQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSeeCoffeeShopQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSeeCoffeeShopQuery(baseOptions: Apollo.QueryHookOptions<SeeCoffeeShopQuery, SeeCoffeeShopQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SeeCoffeeShopQuery, SeeCoffeeShopQueryVariables>(SeeCoffeeShopDocument, options);
+      }
+export function useSeeCoffeeShopLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SeeCoffeeShopQuery, SeeCoffeeShopQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SeeCoffeeShopQuery, SeeCoffeeShopQueryVariables>(SeeCoffeeShopDocument, options);
+        }
+export type SeeCoffeeShopQueryHookResult = ReturnType<typeof useSeeCoffeeShopQuery>;
+export type SeeCoffeeShopLazyQueryHookResult = ReturnType<typeof useSeeCoffeeShopLazyQuery>;
+export type SeeCoffeeShopQueryResult = Apollo.QueryResult<SeeCoffeeShopQuery, SeeCoffeeShopQueryVariables>;
+export const SearchCoffeeShopDocument = gql`
+    query searchCoffeeShop($keyword: String!) {
+  searchCoffeeShop(keyword: $keyword) {
+    id
+    name
+    photos {
+      id
+      url
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchCoffeeShopQuery__
+ *
+ * To run a query within a React component, call `useSearchCoffeeShopQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchCoffeeShopQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchCoffeeShopQuery({
+ *   variables: {
+ *      keyword: // value for 'keyword'
+ *   },
+ * });
+ */
+export function useSearchCoffeeShopQuery(baseOptions: Apollo.QueryHookOptions<SearchCoffeeShopQuery, SearchCoffeeShopQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchCoffeeShopQuery, SearchCoffeeShopQueryVariables>(SearchCoffeeShopDocument, options);
+      }
+export function useSearchCoffeeShopLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchCoffeeShopQuery, SearchCoffeeShopQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchCoffeeShopQuery, SearchCoffeeShopQueryVariables>(SearchCoffeeShopDocument, options);
+        }
+export type SearchCoffeeShopQueryHookResult = ReturnType<typeof useSearchCoffeeShopQuery>;
+export type SearchCoffeeShopLazyQueryHookResult = ReturnType<typeof useSearchCoffeeShopLazyQuery>;
+export type SearchCoffeeShopQueryResult = Apollo.QueryResult<SearchCoffeeShopQuery, SearchCoffeeShopQueryVariables>;

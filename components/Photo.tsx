@@ -12,6 +12,7 @@ import styled from 'styled-components/native';
 import { isLoggedInVar } from '../apollo/vars';
 import { colors } from '../colors';
 import {
+  SeeCoffeeShopQuery,
   SeeCoffeeShopsQuery,
   useToggleLikeMutation,
 } from '../graphql/generated';
@@ -58,10 +59,13 @@ const ExtraContainer = styled.View`
 type ArrayElement<ArrayType extends readonly unknown[] | null | undefined> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 interface Props {
-  photo: ArrayElement<SeeCoffeeShopsQuery['seeCoffeeShops']>;
+  photo:
+    | ArrayElement<SeeCoffeeShopsQuery['seeCoffeeShops']>
+    | SeeCoffeeShopQuery['seeCoffeeShop'];
 }
 
 const Photo = ({ photo }: Props) => {
+  console.log(photo);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const navigation = useNavigation<HomeScreenProps['navigation']>();
   const { width } = useWindowDimensions();

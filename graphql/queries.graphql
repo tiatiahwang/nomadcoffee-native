@@ -30,3 +30,39 @@ query seeCoffeeShops($page: Int) {
     }
   }
 }
+
+query seeCoffeeShop($id: Int!) {
+  seeCoffeeShop(id: $id) {
+    id
+    name
+    latitude
+    longitude
+    createdAt
+    isMine
+    isLiked
+    likes
+    user {
+      username
+      avatarURL
+    }
+    photos {
+      id
+      url
+    }
+    categories {
+      id
+      name
+    }
+  }
+}
+
+query searchCoffeeShop($keyword: String!) {
+  searchCoffeeShop(keyword: $keyword) {
+    id
+    name
+    photos {
+      id
+      url
+    }
+  }
+}

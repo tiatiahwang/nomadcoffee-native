@@ -8,6 +8,7 @@ import Me from '../screens/Me';
 import Profile from '../screens/Profile';
 import Login from '../screens/Login';
 import CreateAccount from '../screens/CreateAccount';
+import Photo from '../screens/Photo';
 
 const Stack = createNativeStackNavigator<SharedNavParamList>();
 
@@ -49,6 +50,7 @@ const SharedStackNav = ({ screenName }: Props) => {
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="CreateAccount" component={CreateAccount} />
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Photo" component={Photo} />
     </Stack.Navigator>
   );
 };

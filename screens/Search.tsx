@@ -17,6 +17,7 @@ import { SearchScreenProps } from '../navTypes';
 const Input = styled.TextInput`
   padding: 0;
   margin: 0;
+  text-align: center;
 `;
 
 const MessageContainer = styled.View`

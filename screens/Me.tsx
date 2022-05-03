@@ -4,13 +4,10 @@ import { isLoggedInVar, logUserOut } from '../apollo/vars';
 import Login from './Login';
 
 const Me = () => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-  return isLoggedIn ? (
+  return (
     <TouchableOpacity onPress={logUserOut}>
       <Text>LOGOUT</Text>
     </TouchableOpacity>
-  ) : (
-    <Login />
   );
 };
 

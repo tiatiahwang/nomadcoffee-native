@@ -46,7 +46,15 @@ const SharedStackNav = ({ screenName }: Props) => {
       {screenName === 'Notifications' && (
         <Stack.Screen name="Notifications" component={Notifications} />
       )}
-      {screenName === 'Me' && <Stack.Screen name="Me" component={Me} />}
+      {screenName === 'Me' && (
+        <Stack.Screen
+          name="Me"
+          component={Me}
+          options={{
+            headerShown: false,
+          }}
+        />
+      )}
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="CreateAccount" component={CreateAccount} />
       <Stack.Screen name="Login" component={Login} />

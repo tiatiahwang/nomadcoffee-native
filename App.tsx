@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider, useReactiveVar } from '@apollo/client';
 import client, { cache } from './apollo/client';
 import { isLoggedInVar, TOKEN, tokenVar } from './apollo/vars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,9 +13,11 @@ import {
   CachePersistor,
   persistCache,
 } from 'apollo3-cache-persist';
-import TabsNav from './navigators/TabsNav';
+import LoggedInNav from './navigators/LoggedInNav';
+import LoggedOutNav from './navigators/LoggedOutNav';
 
 export default function App() {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [loading, setLoading] = useState(true);
   const onFinish = () => setLoading(false);
   const preloadAssets = async () => {
@@ -57,7 +59,7 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
-        <TabsNav />
+        {isLoggedIn ? <LoggedInNav /> : <LoggedOutNav />}
       </NavigationContainer>
     </ApolloProvider>
   );

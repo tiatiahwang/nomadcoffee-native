@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LoggedOutNavParamList } from '../navTypes';
+import LogInNav from './LogInNav';
 import TabsNav from './TabsNav';
 
 const Stack = createNativeStackNavigator<LoggedOutNavParamList>();
@@ -21,6 +22,7 @@ const LoggedOutNav = () => {
           headerShown: false,
         }}
       />
+      <Stack.Screen name="LogInNav" component={LogInNav} />
     </Stack.Navigator>
   );
 };

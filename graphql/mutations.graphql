@@ -23,3 +23,26 @@ mutation toggleLike($id: Int!) {
     error
   }
 }
+
+mutation createCoffeeShop(
+  $name: String!
+  $latitude: String
+  $longitude: String
+  $address: String
+  $description: String
+  $photos: Upload!
+  $categories: String!
+) {
+  createCoffeeShop(
+    name: $name
+    latitude: $latitude
+    longitude: $longitude
+    address: $address
+    description: $description
+    photos: $photos
+    categories: $categories
+  ) {
+    ok
+    error
+  }
+}

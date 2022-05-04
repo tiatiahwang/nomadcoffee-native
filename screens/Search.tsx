@@ -100,7 +100,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
                   }
                 >
                   <Image
-                    source={{ uri: item?.photos[0]?.url }}
+                    source={{ uri: item?.photos?.url }}
                     style={{
                       width: width / numColumns,
                       height: 100,

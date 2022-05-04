@@ -65,7 +65,6 @@ interface Props {
 }
 
 const Photo = ({ photo }: Props) => {
-  console.log(photo);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const navigation = useNavigation<HomeScreenProps['navigation']>();
   const { width } = useWindowDimensions();
@@ -89,7 +88,7 @@ const Photo = ({ photo }: Props) => {
   const goToProfile = () =>
     navigation.navigate('Profile', { username: photo?.user?.username! });
   useEffect(() => {
-    const file = photo?.photos[0]?.url!;
+    const file = photo?.photos?.url;
     Image.getSize(file, (w, h) => {
       setImgHeight((h * width) / w);
     });
@@ -102,7 +101,7 @@ const Photo = ({ photo }: Props) => {
       </Header>
       <File
         style={{ width, height: width || imgHeight }}
-        source={{ uri: photo?.photos[0]?.url }}
+        source={{ uri: photo?.photos?.url }}
       />
       <ExtraContainer>
         {isLoggedIn && (

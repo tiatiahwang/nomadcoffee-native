@@ -1,16 +1,20 @@
 import { useReactiveVar } from '@apollo/client';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import { View } from 'react-native';
 import { isLoggedInVar } from '../apollo/vars';
 import Avatar from '../components/Avatar';
 import TabIcons from '../components/nav/TabIcons';
 import useMe from '../hooks/useMe';
 import { TabsNavParamList } from '../navTypes';
+import LoggedOutNav from './LoggedOutNav';
+import LogInNav from './LogInNav';
 import SharedStackNav from './SharedStackNav';
 
 const Tab = createBottomTabNavigator<TabsNavParamList>();
 
 const TabsNav = () => {
+  const navigation = useNavigation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useMe();
   return (
@@ -60,6 +64,14 @@ const TabsNav = () => {
         <Tab.Screen
           name="CameraTab"
           component={View}
+          listeners={({ navigation }) => {
+            return {
+              tabPress: (e) => {
+                e.preventDefault();
+                navigation.navigate('UploadNav');
+              },
+            };
+          }}
           options={{
             tabBarIcon: ({ color, focused }) => (
               <TabIcons
@@ -91,6 +103,7 @@ const TabsNav = () => {
           {() => <SharedStackNav screenName="Notifications" />}
         </Tab.Screen>
       )}
+
       <Tab.Screen
         name="MeTab"
         options={{
@@ -106,6 +119,17 @@ const TabsNav = () => {
                 size={24}
               />
             ),
+        }}
+        listeners={({ navigation }) => {
+          if (isLoggedIn) return {};
+          else {
+            return {
+              tabPress: (e) => {
+                e.preventDefault();
+                navigation.navigate('LogInNav');
+              },
+            };
+          }
         }}
       >
         {() => <SharedStackNav screenName="Me" />}

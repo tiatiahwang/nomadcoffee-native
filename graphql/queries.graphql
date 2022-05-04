@@ -8,51 +8,13 @@ query me {
 
 query seeCoffeeShops($page: Int) {
   seeCoffeeShops(page: $page) {
-    id
-    name
-    latitude
-    longitude
-    createdAt
-    isMine
-    isLiked
-    likes
-    user {
-      username
-      avatarURL
-    }
-    photos {
-      id
-      url
-    }
-    categories {
-      id
-      name
-    }
+    ...CoffeeShopFragment
   }
 }
 
 query seeCoffeeShop($id: Int!) {
   seeCoffeeShop(id: $id) {
-    id
-    name
-    latitude
-    longitude
-    createdAt
-    isMine
-    isLiked
-    likes
-    user {
-      username
-      avatarURL
-    }
-    photos {
-      id
-      url
-    }
-    categories {
-      id
-      name
-    }
+    ...CoffeeShopFragment
   }
 }
 

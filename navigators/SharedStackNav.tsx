@@ -56,8 +56,6 @@ const SharedStackNav = ({ screenName }: Props) => {
         />
       )}
       <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="CreateAccount" component={CreateAccount} />
-      <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Photo" component={Photo} />
     </Stack.Navigator>
   );
